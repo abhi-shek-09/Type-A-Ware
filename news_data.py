@@ -1,7 +1,7 @@
 import requests
 import json
 import codecs
-
+# from app import TypeSpeedGUI
 def remove_unicode_escapes(text):
     if text is not None:
         text = codecs.escape_decode(text.encode('utf-8'))[0].decode('utf-8')
@@ -34,8 +34,11 @@ if response.status_code == 200:
     cleaned_descriptions = [description for description in cleaned_descriptions if "<a href" not in description]
     cleaned_descriptions = [remove_unicode_escapes(description) for description in cleaned_descriptions]
 
-    with open('news_data.json', 'w') as file:
-        json.dump(cleaned_descriptions, file, indent=4)
+    final_descriptions = "|".join(cleaned_descriptions)
+    with open('news_data.txt', 'w') as file:
+        file.write(final_descriptions)
+
+    # TypeSpeedGUI()
 
 else:
     print(f"Error: {response.status_code}")
